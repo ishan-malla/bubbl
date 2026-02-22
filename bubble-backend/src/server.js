@@ -21,9 +21,12 @@ const __dirname = path.dirname(__filename);
 const backendEnvPath = path.join(__dirname, "..", ".env");
 const sharedEnvPath = path.join(__dirname, "..", "..", ".env");
 
-// Shared root env first, backend-local env second (local overrides shared).
-dotenv.config({ path: sharedEnvPath });
-dotenv.config({ path: backendEnvPath, override: true });
+// Prefer one shared root env for backend + frontend.
+// Backward compatibility: if root `.env` is missing, fallback to backend `.env`.
+const sharedEnvLoad = dotenv.config({ path: sharedEnvPath });
+if (sharedEnvLoad.error) {
+  dotenv.config({ path: backendEnvPath });
+}
 
 async function main() {
   await connectDb();

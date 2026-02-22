@@ -9,9 +9,8 @@ This repo is split into:
 1. Copy root template:
    - `cp .env.example .env`
 2. Fill real values in `.env`.
-3. Optional backend-only override:
-   - `cp bubble-backend/.env.example bubble-backend/.env`
-   - values in `bubble-backend/.env` override root `.env` for backend only.
+3. Root `.env` is the single shared file for both backend + frontend.
+4. Legacy fallback: backend will read `bubble-backend/.env` only if root `.env` is missing.
 
 Frontend reads `EXPO_PUBLIC_*` values from root `.env` via npm scripts.
 
